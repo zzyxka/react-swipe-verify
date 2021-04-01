@@ -11,11 +11,10 @@ title: React 移动端滑动验证组件
 | disabled | bool | 控制组件是否可用 |
 | text | string | 组件正常状态先展示的文案 |
 
----
-示例：http://blog.xbr.pub/react-swipe-verify/dist/
-使用移动端设备打开示例页，或使用浏览器调试工具（打开后刷新页面，否则会出现宽度获取错误，无法滑动到成功的问题）。
 
----
+- 示例：http://blog.xbr.pub/react-swipe-verify/dist/
+- 使用移动端设备打开示例页，或使用浏览器调试工具（打开后刷新页面，否则会出现宽度获取错误，无法滑动到成功的问题）。
+
 
 # 场景一：登录验证
 
