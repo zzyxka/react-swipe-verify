@@ -1,6 +1,6 @@
 {
   "name": "react-swipe-verify",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "swipe-verify by react",
   "main": "lib/index.js",
   "scripts": {

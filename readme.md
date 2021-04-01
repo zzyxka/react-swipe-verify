@@ -10,6 +10,7 @@ title: React 移动端滑动验证组件
 | loading | bool | 控制组件 loading 状态 |
 | disabled | bool | 控制组件是否可用 |
 | text | string | 组件正常状态先展示的文案 |
+| containerStyle | object | 最外层容器的样式，建议只传入布局相关属性 |
 
 
 - 示例：http://blog.xbr.pub/react-swipe-verify/dist/

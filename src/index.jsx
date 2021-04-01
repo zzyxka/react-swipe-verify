@@ -78,13 +78,14 @@ class Index extends Component {
 
   render() {
     const { moveX, isSuccess } = this.state;
-    const { text, loading, disabled } = this.props;
+    const { text, loading, disabled, containerStyle } = this.props;
     const swipedWidth = moveX + blockWidth / 2;
 
     return (
       <div
         id="swipe-verify"
         className={`container-bar ${(loading || disabled) ? 'container-bar--unable' : ''}`}
+        style={containerStyle}
       >
         <div className="swiped-part" style={{ width: `${swipedWidth}px` }} />
         <div
@@ -112,6 +113,7 @@ Index.defaultProps = {
   loading: false,
   disabled: false,
   text: '',
+  containerStyle: {}
 };
 
 Index.propTypes = {
@@ -119,6 +121,7 @@ Index.propTypes = {
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
   text: PropTypes.string,
+  containerStyle: PropTypes.object
 };
 
 export default Index;
