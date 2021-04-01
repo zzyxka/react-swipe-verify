@@ -11,6 +11,7 @@ title: React 移动端滑动验证组件
 | disabled | bool | 控制组件是否可用 |
 | text | string | 组件正常状态先展示的文案 |
 
+示例：http://blog.xbr.pub/react-swipe-verify/dist/
 # 场景一：登录验证
 
 仅单次滑动校验
