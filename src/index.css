@@ -3,9 +3,14 @@
   display: block;
   height: 40px;
   line-height: 40px;
-  background: #dbdbde;
+  background: #f00;
   text-align: center;
   color: white;
+}
+
+.container-bar--unable {
+  background-color: #dbdbde;
+  opacity: 0.6;
 }
 
 .swiper-block {

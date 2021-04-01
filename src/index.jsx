@@ -15,6 +15,7 @@ class Index extends Component {
       isSuccess: false,
     };
     this.eventCheck = this.eventCheck.bind(this);
+    this.resetState = this.resetState.bind(this);
     this.touchStartHandler = this.touchStartHandler.bind(this);
     this.touchMoveHandler = this.touchMoveHandler.bind(this);
     this.touchEndHandler = this.touchEndHandler.bind(this);
@@ -25,6 +26,15 @@ class Index extends Component {
     const { isSuccess } = this.state;
     if (loading || disabled || isSuccess) return false;
     return true;
+  }
+
+  resetState() {
+    startX = 0;
+    clearTimeout(this.timer);
+    this.setState({
+      moveX: 0,
+      isSuccess: false,
+    });
   }
 
   touchStartHandler(e) {
@@ -39,22 +49,25 @@ class Index extends Component {
       return;
     }
     const moveX = e.touches[0].pageX - startX;
-    if (moveX >= swipeWidth) {
-      this.setState({ isSuccess: true });
-      this.props.onSuccess();
-      return;
-    }
-    this.setState({ moveX });
+    this.setState({
+      moveX: moveX >= swipeWidth ? swipeWidth : moveX
+    }, () => {
+      if (moveX >= swipeWidth) {
+        this.setState({ isSuccess: true });
+        const resetFlag = this.props.onSuccess();
+        if (resetFlag) {
+          this.timer = setTimeout(this.resetState, 500);
+        }
+        return;
+      }
+    });
   }
 
   touchEndHandler(e) {
     if (!this.eventCheck()) {
       return;
     }
-    startX = 0;
-    this.setState({
-      moveX: 0
-    });
+    this.resetState();
   }
 
   componentDidMount() {
@@ -71,8 +84,7 @@ class Index extends Component {
     return (
       <div
         id="swipe-verify"
-        className="container-bar"
-        style={{ opacity: (loading || disabled) ? 0.6 : 1 }}
+        className={`container-bar ${(loading || disabled) ? 'container-bar--unable' : ''}`}
       >
         <div className="swiped-part" style={{ width: `${swipedWidth}px` }} />
         <div
