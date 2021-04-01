@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './index.css';
+import classes from './index.css';
 
+let touchIng = false; // 是否在滑动触摸过程中：用来防止用户滑动结束不抬起手指导致的问题
 let containerWidth = 0; // 容器长度
 let blockWidth = 0; // 滑块长度
 let swipeWidth = 0; // 可活动距离
@@ -29,6 +30,7 @@ class Index extends Component {
   }
 
   resetState() {
+    touchIng = false;
     startX = 0;
     clearTimeout(this.timer);
     this.setState({
@@ -41,16 +43,26 @@ class Index extends Component {
     if (!this.eventCheck()) {
       return;
     }
+    touchIng = true;
     startX = e.touches[0].pageX;
   }
 
   touchMoveHandler(e) {
-    if (!this.eventCheck()) {
+    if (!touchIng || !this.eventCheck()) {
       return;
     }
     const moveX = e.touches[0].pageX - startX;
+    const getDomMoveX = () => {
+      if (moveX <= 0) {
+        return 0;
+      }
+      if (moveX >= swipeWidth) {
+        return swipeWidth;
+      }
+      return moveX;
+    }
     this.setState({
-      moveX: moveX >= swipeWidth ? swipeWidth : moveX
+      moveX: getDomMoveX()
     }, () => {
       if (moveX >= swipeWidth) {
         this.setState({ isSuccess: true });
@@ -64,7 +76,7 @@ class Index extends Component {
   }
 
   touchEndHandler(e) {
-    if (!this.eventCheck()) {
+    if (!touchIng || !this.eventCheck()) {
       return;
     }
     this.resetState();
@@ -78,19 +90,35 @@ class Index extends Component {
 
   render() {
     const { moveX, isSuccess } = this.state;
-    const { text, loading, disabled, containerStyle } = this.props;
-    const swipedWidth = moveX + blockWidth / 2;
+    const { 
+      text, 
+      loading, loadingNode, 
+      disabled, 
+      swipeNode, successSwipeNode,
+      containerStyle, customClass
+    } = this.props;
+
+    const {
+      containerBar, containerBarUnable,
+      swipedPart,
+      swiperBlock,
+    } = customClass;
+
+    const swipedWidth = moveX + blockWidth / 2; // 滑块划过长度
 
     return (
       <div
         id="swipe-verify"
-        className={`container-bar ${(loading || disabled) ? 'container-bar--unable' : ''}`}
+        className={`
+          ${classes['container-bar']} ${containerBar} 
+          ${(loading || disabled) ? `${classes['container-bar--unable']} ${containerBarUnable}` : ''}
+        `}
         style={containerStyle}
       >
-        <div className="swiped-part" style={{ width: `${swipedWidth}px` }} />
+        <div className={`${classes['swiped-part']} ${swipedPart}`} style={{ width: `${swipedWidth}px` }} />
         <div
           id="swipe"
-          className="swiper-block"
+          className={`${classes['swiper-block']} ${swiperBlock}`}
           style={{ transform: `translateX(${moveX}px)` }}
           onTouchStart={this.touchStartHandler}
           onTouchMove={this.touchMoveHandler}
@@ -98,11 +126,11 @@ class Index extends Component {
         >
           {
             isSuccess
-              ? <span className="success-mark">✔️</span>
-              : <span>&gt;&gt;</span>
+              ? successSwipeNode
+              : swipeNode
           }
         </div>
-        <b>{loading ? '请求中' : text}</b>
+        <span>{loading ? loadingNode : text}</span>
       </div>
     )
   }
@@ -111,17 +139,25 @@ class Index extends Component {
 Index.defaultProps = {
   onSuccess: () => console.log('success'),
   loading: false,
+  loadingNode: <span>请求中...</span>,
   disabled: false,
   text: '',
-  containerStyle: {}
+  swipeNode: <span>&gt;&gt;</span>,
+  successSwipeNode: <span className={classes['success-mark']}>✔️</span>,
+  containerStyle: {},
+  customClass: {},
 };
 
 Index.propTypes = {
   onSuccess: PropTypes.func,
   loading: PropTypes.bool,
+  loadingNode: PropTypes.object,
   disabled: PropTypes.bool,
   text: PropTypes.string,
-  containerStyle: PropTypes.object
+  swipeNode: PropTypes.object,
+  successSwipeNode: PropTypes.object,
+  containerStyle: PropTypes.object,
+  customClass: PropTypes.object,
 };
 
 export default Index;
