@@ -2,6 +2,10 @@
 title: React 移动端滑动验证组件
 ---
 
+```bash
+npm i react-swipe-verify --save
+```
+
 # 🌰 示例
 
 ![44_800_11b3e22cb2119dc051bd7360174f15bd_f41afbaa4e34e911a77bdd957198ccde](https://gitee.com/zhangzeyi//images/raw/master/20210401161028.png)
