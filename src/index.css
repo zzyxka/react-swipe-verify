@@ -8,6 +8,10 @@
   color: white;
 }
 
+.container-bar * {
+  user-select: none;
+}
+
 .container-bar--unable {
   background-color: #dbdbde;
   opacity: 0.6;
