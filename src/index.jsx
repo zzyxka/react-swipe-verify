@@ -8,7 +8,7 @@ let blockWidth = 0; // 滑块长度
 let swipeWidth = 0; // 可活动距离
 let startX = 0; // 开始滑动位置
 
-class Index extends Component {
+class SwipeVerify extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -136,7 +136,7 @@ class Index extends Component {
   }
 }
 
-Index.defaultProps = {
+SwipeVerify.defaultProps = {
   onSuccess: () => console.log('success'),
   loading: false,
   loadingNode: <span>请求中...</span>,
@@ -148,7 +148,7 @@ Index.defaultProps = {
   customClass: {},
 };
 
-Index.propTypes = {
+SwipeVerify.propTypes = {
   onSuccess: PropTypes.func,
   loading: PropTypes.bool,
   loadingNode: PropTypes.object,
@@ -160,4 +160,4 @@ Index.propTypes = {
   customClass: PropTypes.object,
 };
 
-export default Index;
+export default SwipeVerify;
