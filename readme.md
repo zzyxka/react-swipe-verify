@@ -41,3 +41,6 @@ npm i react-swipe-verify --save
 > 1. 覆盖不建议的属性可能导致组件异常！！！请按建议规范自定义样式。
 > 2. 建议使用 `css modules`。
 
+# TODO
+
+- [ ] 移动端支持
